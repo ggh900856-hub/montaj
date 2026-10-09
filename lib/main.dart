@@ -77,21 +77,6 @@ const styles = <StylePreset>[
   StylePreset(id: 'vlog', label: 'فلوج', hold: 1.8, transitions: ['smoothleft', 'slideleft', 'fade'], contrast: 1.04, saturation: 1.04, letterbox: false),
 ];
 
-class CapColor {
-  const CapColor(this.name, this.color);
-  final String name;
-  final Color color;
-}
-
-const capColors = <CapColor>[
-  CapColor('أبيض', Color(0xFFF4F1EA)),
-  CapColor('أسود', Color(0xFF0A0B0C)),
-  CapColor('رملي', Color(0xFFD7C4A3)),
-  CapColor('وردي', Color(0xFFD9A8A8)),
-  CapColor('نعناعي', Color(0xFF9CBFB0)),
-  CapColor('سماوي', Color(0xFF9BB4C4)),
-];
-
 class Shot {
   Shot({required this.path, required this.isImage, required this.name, required this.duration});
   final String path;
@@ -109,15 +94,10 @@ class StudioPage extends StatefulWidget {
 
 class _StudioPageState extends State<StudioPage> {
   final _picker = ImagePicker();
-  final _title = TextEditingController();
-  final _sub = TextEditingController();
   final List<Shot> _shots = [];
 
   int _style = 0;
   int _aspect = 0;
-  int _color = 0;
-  int _size = 1;
-  int _place = 2;
   int _index = 0;
   bool _playing = false;
   bool _exporting = false;
@@ -139,8 +119,6 @@ class _StudioPageState extends State<StudioPage> {
     _alive = false;
     _timer?.cancel();
     _video?.dispose();
-    _title.dispose();
-    _sub.dispose();
     super.dispose();
   }
 
@@ -303,7 +281,7 @@ class _StudioPageState extends State<StudioPage> {
       ];
 
       setState(() {
-        _status = 'جاري تصنيع وتصدير الفيديو نهائياً...';
+        _status = 'جاري تصدير الفيديو...';
       });
 
       await FFmpegKit.executeWithArgumentsAsync(arguments, (session) async {
@@ -312,3 +290,26 @@ class _StudioPageState extends State<StudioPage> {
         setState(() {
           _exporting = false;
         });
+
+        if (ReturnCode.isSuccess(returnCode)) {
+          _toast('تم التصدير بنجاح!');
+          await Share.shareXFiles([XFile(outputPath)], text: 'فيديو المونتاج');
+        } else {
+          _toast('فشل تصدير الفيديو');
+        }
+      });
+
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _exporting = false;
+      });
+      _toast('حدث خطأ: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = aspects[_aspect];
+    return Scaffold(
+      appBar: AppBar(
