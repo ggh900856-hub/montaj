@@ -313,3 +313,103 @@ class _StudioPageState extends State<StudioPage> {
     final size = aspects[_aspect];
     return Scaffold(
       appBar: AppBar(
+        title: const Text('استوديو المونتاج الاحترافي'),
+        centerTitle: true,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AspectRatio(
+                aspectRatio: size.$2 / size.$3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: _playing && _video != null && _video!.value.isInitialized
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(11),
+                          child: VideoPlayer(_video!),
+                        )
+                      : Center(
+                          child: _exporting
+                              ? Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const CircularProgressIndicator(color: Colors.white),
+                                    const SizedBox(height: 16),
+                                    Text(_status),
+                                  ],
+                                )
+                              : Text(_shots.isEmpty ? 'أضف لقطات للبدء' : 'جاهز للمعاينة'),
+                        ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () => _add(images: true),
+                      icon: const Icon(Icons.image),
+                      label: const Text('صور'),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () => _add(images: false),
+                      icon: const Icon(Icons.movie),
+                      label: const Text('فيديو'),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<int>(
+                value: _style,
+                decoration: const InputDecoration(labelText: 'الطابع (Style)'),
+                items: List.generate(styles.length, (index) {
+                  return DropdownMenuItem(value: index, child: Text(styles[index].label));
+                }),
+                onChanged: (val) {
+                  if (val != null) setState(() => _style = val);
+                },
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<int>(
+                value: _aspect,
+                decoration: const InputDecoration(labelText: 'الأبعاد'),
+                items: List.generate(aspects.length, (index) {
+                  return DropdownMenuItem(value: index, child: Text(aspects[index].$1));
+                }),
+                onChanged: (val) {
+                  if (val != null) setState(() => _aspect = val);
+                },
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: _shots.isEmpty || _exporting ? null : _play,
+                      child: Text(_playing ? 'إيقاف' : 'معاينة'),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _shots.isEmpty || _exporting ? null : _export,
+                      child: const Text('تصدير وحفظ'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
