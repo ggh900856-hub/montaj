@@ -22,7 +22,7 @@ class MontajApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'مونتاج',
+      title: 'استوديو المونتاج الاحترافي',
       locale: const Locale('ar'),
       theme: ThemeData(
         brightness: Brightness.dark,
@@ -49,7 +49,6 @@ class StylePreset {
     required this.id,
     required this.label,
     required this.hold,
-    required this.transitions,
     required this.contrast,
     required this.saturation,
     required this.letterbox,
@@ -58,23 +57,29 @@ class StylePreset {
   final String id;
   final String label;
   final double hold;
-  final List<String> transitions;
   final double contrast;
   final double saturation;
   final bool letterbox;
 }
 
+// قائمة القوالب الاحترافية الموسعة الشاملة لأغلب تخصصات المونتاج
 const styles = <StylePreset>[
-  StylePreset(id: 'reels', label: 'ريلز', hold: 1.3, transitions: ['wipeleft', 'fade', 'zoomin'], contrast: 1.08, saturation: 1.1, letterbox: false),
-  StylePreset(id: 'cinematic', label: 'سينمائي', hold: 2.6, transitions: ['fade', 'fadeblack', 'dissolve'], contrast: 1.04, saturation: 0.92, letterbox: true),
-  StylePreset(id: 'ad', label: 'إعلان', hold: 1.5, transitions: ['fadewhite', 'zoomin', 'wipeleft'], contrast: 1.12, saturation: 1.08, letterbox: false),
-  StylePreset(id: 'event', label: 'مناسبة', hold: 2.2, transitions: ['fade', 'circleopen', 'radial'], contrast: 1.05, saturation: 1.02, letterbox: false),
-  StylePreset(id: 'travel', label: 'سفر', hold: 2.0, transitions: ['slideleft', 'smoothleft', 'fade'], contrast: 1.06, saturation: 1.08, letterbox: false),
-  StylePreset(id: 'wedding', label: 'زفاف', hold: 2.8, transitions: ['fade', 'radial', 'circleopen'], contrast: 1.02, saturation: 0.96, letterbox: false),
-  StylePreset(id: 'night', label: 'ليلي', hold: 2.4, transitions: ['fadeblack', 'fade', 'hblur'], contrast: 1.14, saturation: 0.8, letterbox: true),
-  StylePreset(id: 'sport', label: 'رياضي', hold: 1.1, transitions: ['wipeleft', 'slideright', 'fadewhite'], contrast: 1.16, saturation: 1.12, letterbox: false),
-  StylePreset(id: 'luxury', label: 'فخم', hold: 2.5, transitions: ['fade', 'circleopen', 'smoothleft'], contrast: 1.05, saturation: 0.98, letterbox: true),
-  StylePreset(id: 'vlog', label: 'فلوج', hold: 1.8, transitions: ['smoothleft', 'slideleft', 'fade'], contrast: 1.04, saturation: 1.04, letterbox: false),
+  StylePreset(id: 'reels', label: 'ريلز سريع', hold: 1.3, contrast: 1.12, saturation: 1.18, letterbox: false),
+  StylePreset(id: 'cinematic', label: 'سينمائي كلاسيك', hold: 2.8, contrast: 1.05, saturation: 0.88, letterbox: true),
+  StylePreset(id: 'ad', label: 'إعلان تسويقي', hold: 1.6, contrast: 1.16, saturation: 1.12, letterbox: false),
+  StylePreset(id: 'vlog', label: 'فلوج يومي', hold: 2.0, contrast: 1.02, saturation: 1.05, letterbox: false),
+  StylePreset(id: 'gaming', label: 'ألعاب وحماس', hold: 1.1, contrast: 1.20, saturation: 1.25, letterbox: false),
+  StylePreset(id: 'documentary', label: 'وثائقي واقعي', hold: 3.5, contrast: 1.00, saturation: 0.82, letterbox: true),
+  StylePreset(id: 'fashion', label: 'أزياء وموضة', hold: 1.5, contrast: 1.10, saturation: 1.10, letterbox: false),
+  StylePreset(id: 'travel', label: 'رحلات وسفر', hold: 2.2, contrast: 1.08, saturation: 1.20, letterbox: false),
+  StylePreset(id: 'cooking', label: 'طبخ وأكلات', hold: 1.8, contrast: 1.14, saturation: 1.28, letterbox: false),
+  StylePreset(id: 'vintage', label: 'كلاسيك قديم (سبعينات)', hold: 2.4, contrast: 0.95, saturation: 0.75, letterbox: false),
+  StylePreset(id: 'action', label: 'حركة وسرعة', hold: 0.9, contrast: 1.18, saturation: 1.05, letterbox: false),
+  StylePreset(id: 'cyberpunk', label: 'مستقبلي نيون', hold: 1.7, contrast: 1.25, saturation: 1.40, letterbox: false),
+  StylePreset(id: 'wedding', label: 'حفلات زفاف', hold: 2.6, contrast: 1.02, saturation: 0.95, letterbox: false),
+  StylePreset(id: 'nature', label: 'طبيعة وهدوء', hold: 3.0, contrast: 1.04, saturation: 1.22, letterbox: false),
+  StylePreset(id: 'corporate', label: 'شركات رسمي', hold: 2.5, contrast: 1.06, saturation: 0.98, letterbox: false),
+  StylePreset(id: 'blackandwhite', label: 'أبيض وأسود فاخر', hold: 2.3, contrast: 1.22, saturation: 0.00, letterbox: true),
 ];
 
 class Shot {
@@ -107,9 +112,9 @@ class _StudioPageState extends State<StudioPage> {
   bool _alive = true;
 
   static const aspects = [
-    ('ريلز', 720, 1280),
-    ('يوتيوب', 1280, 720),
-    ('مربع', 1080, 1080),
+    ('ريلز تيك توك (9:16)', 720, 1280),
+    ('يوتيوب أفقي (16:9)', 1280, 720),
+    ('انستقرام مربع (1:1)', 1080, 1080),
   ];
 
   StylePreset get style => styles[_style];
@@ -124,24 +129,29 @@ class _StudioPageState extends State<StudioPage> {
 
   Future<void> _add({required bool images}) async {
     if (_shots.length >= 8) {
-      _toast('الحد ٨ لقطات');
+      _toast('الحد الأقصى ٨ لقطات فقط');
       return;
     }
-    final picked = images ? await _picker.pickMultiImage() : await _picker.pickMultiVideo();
-    if (picked.isEmpty) return;
-    final room = 8 - _shots.length;
-    for (final file in picked.take(room)) {
-      final path = file.path;
-      final duration = images ? style.hold : await _probe(path);
-      if (!mounted) return;
-      setState(() {
-        _shots.add(Shot(
-          path: path,
-          isImage: images,
-          name: file.name,
-          duration: duration < 0.4 ? 2 : duration,
-        ));
-      });
+    try {
+      final picked = images ? await _picker.pickMultiImage() : await _picker.pickMultiVideo();
+      if (picked.isEmpty) return;
+      
+      final room = 8 - _shots.length;
+      for (final file in picked.take(room)) {
+        final path = file.path;
+        final duration = images ? style.hold : await _probe(path);
+        if (!mounted) return;
+        setState(() {
+          _shots.add(Shot(
+            path: path,
+            isImage: images,
+            name: file.name,
+            duration: duration < 0.4 ? 2.0 : duration,
+          ));
+        });
+      }
+    } catch (_) {
+      _toast('تأكد من تفعيل صلاحية الوصول لمعرض الصور');
     }
   }
 
@@ -152,7 +162,7 @@ class _StudioPageState extends State<StudioPage> {
       final value = double.tryParse(raw ?? '') ?? 0;
       if (value > 0.3) return value;
     } catch (_) {}
-    return 4;
+    return 3.0;
   }
 
   void _toast(String text) {
@@ -185,6 +195,7 @@ class _StudioPageState extends State<StudioPage> {
     if (!_playing || _shots.isEmpty) return;
     final shot = _shots[_index];
     final hold = shot.isImage ? style.hold : (shot.duration < style.hold ? shot.duration : style.hold);
+    
     if (!shot.isImage) {
       final controller = VideoPlayerController.file(File(shot.path));
       _video = controller;
@@ -194,11 +205,12 @@ class _StudioPageState extends State<StudioPage> {
         await controller.play();
         if (mounted) setState(() {});
       } catch (_) {
-        _toast('تعذر تشغيل ${shot.name}');
+        _toast('تعذر معاينة الملف ${shot.name}');
       }
     } else if (mounted) {
       setState(() {});
     }
+    
     _timer?.cancel();
     _timer = Timer(Duration(milliseconds: (hold * 1000).round()), () async {
       if (!_alive || !_playing) return;
@@ -219,197 +231,195 @@ class _StudioPageState extends State<StudioPage> {
     if (_shots.isEmpty || _exporting) return;
     setState(() {
       _exporting = true;
-      _status = 'بيجهّز اللقطات…';
+      _status = 'جاري دمج ومعالجة وتطبيق فلاتر القالب...';
     });
     await _stop();
+    
     try {
       final dir = await getTemporaryDirectory();
-      final work = Directory('${dir.path}/montaj_${DateTime.now().millisecondsSinceEpoch}');
-      await work.create(recursive: true);
-      
       final size = aspects[_aspect];
       final width = size.$2;
       final height = size.$3;
       
-      final List<String> inputs = [];
-      final List<String> filters = [];
+      final outPath = '${dir.path}/montaj_${DateTime.now().millisecondsSinceEpoch}.mp4';
+      final List<String> args = [];
       
-      for (var i = 0; i < _shots.length; i++) {
-        final shot = _shots[i];
+      for (final shot in _shots) {
         final duration = shot.isImage ? style.hold : (shot.duration < style.hold ? shot.duration : style.hold);
-        
         if (shot.isImage) {
-          inputs.addAll(['-loop', '1', '-t', '$duration', '-i', shot.path]);
+          args.addAll(['-loop', '1', '-t', '$duration', '-i', shot.path]);
         } else {
-          inputs.addAll(['-ss', '0', '-t', '$duration', '-i', shot.path]);
+          args.addAll(['-ss', '0', '-t', '$duration', '-i', shot.path]);
         }
-        
-        String filter = '[$i:v]scale=$width:$height:force_original_aspect_ratio=decrease,pad=$width:$height:(ow-iw)/2:(oh-ih)/2,setsar=1';
-        filter += ',eq=contrast=${style.contrast}:saturation=${style.saturation}';
-        
-        if (style.letterbox) {
-          final boxHeight = (height * 0.12).round();
-          filter += ',drawbox=y=0:h=$boxHeight:color=black:t=fill,drawbox=y=ih-$boxHeight:h=$boxHeight:color=black:t=fill';
-        }
-        
-        filters.add('$filter[v$i];');
       }
       
-      final StringBuffer filterComplex = StringBuffer();
-      for (var f in filters) {
-        filterComplex.write(f);
+      String filterComplex = '';
+      for (var i = 0; i < _shots.length; i++) {
+        filterComplex += '[$i:v]scale=$width:$height:force_original_aspect_ratio=decrease,pad=$width:$height:(ow-iw)/2:(oh-ih)/2,setsar=1';
+        filterComplex += ',eq=contrast=${style.contrast}:saturation=${style.saturation}';
+        if (style.letterbox) {
+          filterComplex += ',drawbox=y=0:h=$height/10:color=black:t=fill,drawbox=y=h-h/10:h=$height/10:color=black:t=fill';
+        }
+        filterComplex += '[v$i];';
       }
       
       for (var i = 0; i < _shots.length; i++) {
-        filterComplex.write('[v$i]');
+        filterComplex += '[v$i]';
       }
-      filterComplex.write('concat=n=${_shots.length}:v=1:a=0[outv]');
+      filterComplex += 'concat=n=${_shots.length}:v=1:a=0[outv]';
       
-      final outputPath = '${work.path}/output_montaj.mp4';
-      final List<String> arguments = [
-        ...inputs,
-        '-filter_complex',
-        filterComplex.toString(),
-        '-map',
-        '[outv]',
-        '-c:v',
-        'libx264',
-        '-pix_fmt',
-        'yuv420p',
-        '-y',
-        outputPath
-      ];
-
-      setState(() {
-        _status = 'جاري تصدير الفيديو...';
-      });
-
-      await FFmpegKit.executeWithArgumentsAsync(arguments, (session) async {
-        final returnCode = await session.getReturnCode();
-        if (!mounted) return;
+      args.addAll([
+        '-filter_complex', filterComplex,
+        '-map', '[outv]',
+        '-pix_fmt', 'yuv420p',
+        '-vsync', '2',
+        '-y', outPath
+      ]);
+      
+      final session = await FFmpegKit.executeWithArguments(args);
+      final returnCode = await session.getReturnCode();
+      
+      if (ReturnCode.isSuccess(returnCode)) {
+        setState(() => _status = 'اكتمل المونتاج! جاري التصدير للحفظ والمشاركة...');
+        await Share.shareXFiles([XFile(outPath)], text: 'فيديو احترافي بواسطة تطبيقي');
+      } else {
+        _toast('فشلت معالجة الفيديو بـ FFmpeg');
+      }
+    } catch (_) {
+      _toast('حدث خطأ أثناء حفظ الفيديو');
+    } finally {
+      if (mounted) {
         setState(() {
           _exporting = false;
+          _status = '';
         });
-
-        if (ReturnCode.isSuccess(returnCode)) {
-          _toast('تم التصدير بنجاح!');
-          await Share.shareXFiles([XFile(outputPath)], text: 'فيديو المونتاج');
-        } else {
-          _toast('فشل تصدير الفيديو');
-        }
-      });
-
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _exporting = false;
-      });
-      _toast('حدث خطأ: $e');
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = aspects[_aspect];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('استوديو المونتاج الاحترافي'),
-        centerTitle: true,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AspectRatio(
-                aspectRatio: size.$2 / size.$3,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
+        title: const Text('استوديو المونتاج الاحترافي', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)), 
+        centerTitle: true
+      ),
+      body: _exporting
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center, 
+                children: [
+                  const CircularProgressIndicator(color: Colors.white), 
+                  const SizedBox(height: 16), 
+                  Text(_status, style: const TextStyle(color: Colors.grey))
+                ]
+              )
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF16181B), 
+                        borderRadius: BorderRadius.circular(12), 
+                        border: Border.all(color: Colors.white10)
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: Center(
+                        child: _shots.isEmpty
+                            ? const Text('أضف لقطات للبدء', style: TextStyle(color: Colors.grey))
+                            : (_shots[_index].isImage
+                                ? Image.file(File(_shots[_index].path), fit: BoxFit.contain)
+                                : (_video != null && _video!.value.isInitialized 
+                                    ? AspectRatio(aspectRatio: _video!.value.aspectRatio, child: VideoPlayer(_video!)) 
+                                    : const CircularProgressIndicator(color: Colors.white))),
+                      ),
+                    ),
                   ),
-                  child: _playing && _video != null && _video!.value.isInitialized
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(11),
-                          child: VideoPlayer(_video!),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1F2225)), 
+                          icon: const Icon(Icons.image, size: 16), 
+                          label: const Text('صور'), 
+                          onPressed: () => _add(images: true)
                         )
-                      : Center(
-                          child: _exporting
-                              ? Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const CircularProgressIndicator(color: Colors.white),
-                                    const SizedBox(height: 16),
-                                    Text(_status),
-                                  ],
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1F2225)), 
+                          icon: const Icon(Icons.movie, size: 16), 
+                          label: const Text('فيديو'), 
+                          onPressed: () => _add(images: false)
+                        )
+                      ),
+                    ]
+                  ),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    flex: 2,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                            children: [
+                              const Text('القالب السينمائي:'),
+                              DropdownButton<int>(
+                                value: _style, 
+                                underline: const SizedBox(), 
+                                dropdownColor: const Color(0xFF16181B), 
+                                items: List.generate(styles.length, (i) => DropdownMenuItem(value: i, child: Text(styles[i].label))), 
+                                onChanged: (v) { if (v != null) setState(() => _style = v); }
+                              ),
+                            ]
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+                            children: [
+                              const Text('أبعاد الفيديو:'),
+                              DropdownButton<int>(
+                                value: _aspect, 
+                                underline: const SizedBox(), 
+                                dropdownColor: const Color(0xFF16181B), 
+                                items: List.generate(aspects.length, (i) => DropdownMenuItem(value: i, child: Text(aspects[i].$1))), 
+                                onChanged: (v) { if (v != null) setState(() => _aspect = v); }
+                              ),
+                            ]
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.white24)), 
+                                  onPressed: _shots.isEmpty || _exporting ? null : _play, 
+                                  child: Text(_playing ? 'إيقاف المعاينة' : 'تشغيل معاينة')
                                 )
-                              : Text(_shots.isEmpty ? 'أضف لقطات للبدء' : 'جاهز للمعاينة'),
-                        ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () => _add(images: true),
-                      icon: const Icon(Icons.image),
-                      label: const Text('صور'),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(backgroundColor: Colors.white, foregroundColor: Colors.black), 
+                                  onPressed: _shots.isEmpty || _exporting ? null : _export, 
+                                  child: const Text('تصدير وحفظ', style: TextStyle(fontWeight: FontWeight.bold))
+                                )
+                              ),
+                            ]
+                          )
+                        ]
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () => _add(images: false),
-                      icon: const Icon(Icons.movie),
-                      label: const Text('فيديو'),
-                    ),
-                  ),
+                  )
                 ],
               ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<int>(
-                value: _style,
-                decoration: const InputDecoration(labelText: 'الطابع (Style)'),
-                items: List.generate(styles.length, (index) {
-                  return DropdownMenuItem(value: index, child: Text(styles[index].label));
-                }),
-                onChanged: (val) {
-                  if (val != null) setState(() => _style = val);
-                },
-              ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<int>(
-                value: _aspect,
-                decoration: const InputDecoration(labelText: 'الأبعاد'),
-                items: List.generate(aspects.length, (index) {
-                  return DropdownMenuItem(value: index, child: Text(aspects[index].$1));
-                }),
-                onChanged: (val) {
-                  if (val != null) setState(() => _aspect = val);
-                },
-              ),
-              const Spacer(),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: _shots.isEmpty || _exporting ? null : _play,
-                      child: Text(_playing ? 'إيقاف' : 'معاينة'),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _shots.isEmpty || _exporting ? null : _export,
-                      child: const Text('تصدير وحفظ'),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+            ),
+    );
   }
+}
